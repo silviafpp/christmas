@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            overflow: hidden; /* Hide overflowing dots */
+            position: relative; /* Ensure fireflies are positioned relative to the body */
+        }
+
+        .firefly {
+            position: absolute;
+            background-color: yellow;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: fireflyAnimation linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes fireflyAnimation {
+            0% {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-50px) translateX(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>João <3</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#">Tiny Phrases</a>
+        <a href="#">Story</a>
+    </nav>
+
+    <main>
+        <!-- Firefly Container -->
+        <div id="fireflyContainer"></div>
+
+        <div class="image-container">
+            <a href="#" onclick="openPopup()">
+                <img class="jar" src="./jar.png" alt="Clickable Image">
+            </a>
+            <p>Open the lid</p>
+        </div>
+        <div id="popup-container" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Image Carousel</h5>
+                        <button type="button" class="close" onclick="closePopup()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Custom Image Container -->
+                        <div id="imageContainer" class="image-container">
+                            <!-- Place your images here -->
+                            <img id="carouselImage" src="./image1.jpg" class="d-block w-100" alt="Image 1" width="1000" height="600">
+                        </div>
+                        <!-- Custom Navigation Buttons -->
+                        <div class="button-container">
+                            <button class="btn btn-primary btn-lg" onclick="prevImage()">Previous</button>
+                            <button class="btn btn-primary btn-lg" onclick="nextImage()">Next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="script.js"></script>
+    <script>
+        var currentImageIndex = 0;
+        var images = [
+            "/pics/1.jpg",
+            "/pics/2.jpg",
+            "/pics/3.jpg",
+            "/pics/5.jpg",
+            "/pics/6.jpg",
+            "/pics/7.jpg",
+            "/pics/8.jpg",
+            "/pics/9.jpg",
+            "/pics/10.jpg",
+            "/pics/11.jpg",
+            "/pics/12.jpg",
+            "/pics/13.jpg",
+            "/pics/14.jpg",
+            "/pics/15.jpg",
+            "/pics/16.jpg",
+            "/pics/17.jpg",
+            "/pics/18.jpg",
+            "/pics/19.jpg",
+            "/pics/20.jpg",
+            "/pics/21.jpg",
+            "/pics/22.jpg",
+            "/pics/23.jpg",
+            "/pics/24.jpg",
+            "/pics/25.jpg",
+            "/pics/26.jpg",
+            "/pics/27.jpg",
+            "/pics/28.jpg"
+        ];
+
+        document.addEventListener('DOMContentLoaded', function () {
+            createFireflies();
+        });
+
+        function openPopup() {
+            $('#popup-container').modal('show');
+            showImage();
+            createFireflies();
+        }
+
+        function closePopup() {
+            $('#popup-container').modal('hide');
+            // Reset to the first image when closing the popup
+            currentImageIndex = 0;
+            showImage();
+            removeFireflies();
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            showImage();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            showImage();
+        }
+
+        function showImage() {
+            $('#carouselImage').attr('src', images[currentImageIndex]);
+        }
+
+        function createFireflies() {
+            var container = document.getElementById('fireflyContainer');
+            container.innerHTML = ''; // Clear existing fireflies
+
+            for (var i = 0; i < 50; i++) { // Reduce the number
+                var firefly = document.createElement('div');
+                firefly.className = 'firefly';
+                firefly.style.left = Math.random() * window.innerWidth + 'px';
+                firefly.style.top = Math.random() * window.innerHeight + 'px';
+                firefly.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                container.appendChild(firefly);
+            }
+        }
+
+        function removeFireflies() {
+            var container = document.getElementById('fireflyContainer');
+            container.innerHTML = '';
+        }
+</script>
+</body>
+</html>
